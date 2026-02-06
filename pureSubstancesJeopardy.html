@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Grade 7 Science Jeopardy – Pure Substances & Mixtures</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #0b1c3d;
+        color: white;
+        text-align: center;
+    }
+    h1 { margin: 20px; }
+    table {
+        margin: auto;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 2px solid white;
+        padding: 20px;
+        width: 160px;
+        height: 90px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #1f3a6d;
+    }
+    th {
+        background-color: #10264d;
+        font-size: 18px;
+    }
+    td.used {
+        background-color: #333;
+        cursor: default;
+    }
+    #questionBox {
+        margin-top: 30px;
+        padding: 20px;
+        width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #1f3a6d;
+        border: 2px solid white;
+        font-size: 22px;
+        min-height: 120px;
+    }
+    button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🧪 Grade 7 Science Jeopardy<br>Pure Substances & Mixtures</h1>
+
+<table>
+<tr>
+    <th>Basic Concepts</th>
+    <th>Pure or Mixture?</th>
+    <th>Particle Theory</th>
+    <th>Solutions</th>
+    <th>Separation Methods</th>
+</tr>
+
+<tr>
+<td onclick="showQA(this,'What is matter?','Anything that has mass and takes up space.')">$100</td>
+<td onclick="showQA(this,'Is salt a pure substance or a mixture?','Pure substance – it has the same composition throughout.')">$100</td>
+<td onclick="showQA(this,'What are all substances made of?','Tiny particles.')">$100</td>
+<td onclick="showQA(this,'What is a solution?','A homogeneous mixture where one substance dissolves in another.')">$100</td>
+<td onclick="showQA(this,'Which method separates iron from sand?','Magnetism.')">$100</td>
+</tr>
+
+<tr>
+<td onclick="showQA(this,'What are the three states of matter?','Solid, liquid, and gas.')">$200</td>
+<td onclick="showQA(this,'Is air a pure substance or a mixture?','Mixture – it contains different gases.')">$200</td>
+<td onclick="showQA(this,'What happens to particle motion when temperature increases?','Particles move faster.')">$200</td>
+<td onclick="showQA(this,'In salt water, what is the solvent?','Water.')">$200</td>
+<td onclick="showQA(this,'Which method removes dissolved solids from a liquid?','Evaporation.')">$200</td>
+</tr>
+
+<tr>
+<td onclick="showQA(this,'What does homogeneous mean?','The mixture looks the same throughout.')">$300</td>
+<td onclick="showQA(this,'Is milk a solution or mechanical mixture?','Mechanical mixture – particles are suspended and not dissolved.')">$300</td>
+<td onclick="showQA(this,'Why do gas particles spread out?','They move freely and have weak attraction to each other.')">$300</td>
+<td onclick="showQA(this,'What is the difference between dilute and concentrated?','Concentrated has more solute; dilute has less.')">$300</td>
+<td onclick="showQA(this,'How does filtration work?','It separates solids from liquids using a filter.')">$300</td>
+</tr>
+
+<tr>
+<td onclick="showQA(this,'What is the difference between a pure substance and a mixture?','Pure substances have one kind of particle; mixtures have more than one.')">$400</td>
+<td onclick="showQA(this,'Is distilled water pure? Why?','Yes, it contains only water particles.')">$400</td>
+<td onclick="showQA(this,'Why do solids keep their shape?','Particles are closely packed and vibrate in place.')">$400</td>
+<td onclick="showQA(this,'What is a saturated solution?','A solution where no more solute can dissolve.')">$400</td>
+<td onclick="showQA(this,'Why is evaporation used to make maple syrup?','Water evaporates, leaving concentrated sugar behind.')">$400</td>
+</tr>
+
+<tr>
+<td onclick="showQA(this,'Why are most foods mixtures?','They contain more than one substance combined together.')">$500</td>
+<td onclick="showQA(this,'Is a gold necklace always pure?','No, it may be mixed with other metals.')">$500</td>
+<td onclick="showQA(this,'How does particle theory explain changes of state?','Heating speeds particles up; cooling slows them down.')">$500</td>
+<td onclick="showQA(this,'What are solute and solvent?','Solute dissolves; solvent does the dissolving.')">$500</td>
+<td onclick="showQA(this,'How does distillation work?','It separates substances using different boiling points.')">$500</td>
+</tr>
+</table>
+
+<div id="questionBox">
+Click a dollar amount to reveal a question.
+</div>
+
+<button onclick="showAnswer()">Show Answer</button>
+<button onclick="clearBox()">Clear</button>
+
+<script>
+let currentAnswer = "";
+
+function showQA(cell, question, answer) {
+    if (cell.classList.contains("used")) return;
+    document.getElementById("questionBox").innerText = question;
+    currentAnswer = answer;
+    cell.classList.add("used");
+}
+
+function showAnswer() {
+    if (currentAnswer !== "") {
+        document.getElementById("questionBox").innerText += "\n\nAnswer: " + currentAnswer;
+    }
+}
+
+function clearBox() {
+    document.getElementById("questionBox").innerText = "Click a dollar amount to reveal a question.";
+    currentAnswer = "";
+}
+</script>
+
+</body>
+</html>
