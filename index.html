@@ -1,139 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Grade 7 Science Jeopardy – Pure Substances & Mixtures</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jeopardy – Pure Substances & Mixtures Review</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #0b1c3d;
-        color: white;
-        text-align: center;
-    }
-    h1 { margin: 20px; }
-    table {
-        margin: auto;
-        border-collapse: collapse;
-    }
-    th, td {
-        border: 2px solid white;
-        padding: 20px;
-        width: 160px;
-        height: 90px;
-        font-size: 20px;
-        cursor: pointer;
-        background-color: #1f3a6d;
-    }
-    th {
-        background-color: #10264d;
-        font-size: 18px;
-    }
-    td.used {
-        background-color: #333;
-        cursor: default;
-    }
-    #questionBox {
-        margin-top: 30px;
-        padding: 20px;
-        width: 75%;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #1f3a6d;
-        border: 2px solid white;
-        font-size: 22px;
-        min-height: 120px;
-    }
-    button {
-        margin: 10px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-    }
+  :root{
+    --bg:#0b1021; --panel:#121942; --card:#1a237e;
+    --accent:#ffd54f; --accent2:#64b5f6; --good:#66bb6a; --bad:#ef5350;
+    --text:#e8eaf6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:radial-gradient(1000px 600px at 50% -200px,#1e2a7a 0%,#0b1021 60%); color:var(--text)}
+  header{padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; background:linear-gradient(180deg,rgba(255,255,255,.04),transparent)}
+  h1{margin:0; font-size:clamp(20px,3vw,28px); letter-spacing:.5px}
+  .controls{display:flex; gap:8px; flex-wrap:wrap}
+  button, select, input{background:var(--panel); color:var(--text); border:1px solid rgba(255,255,255,.1); padding:10px 12px; border-radius:12px; font-weight:600}
+  button:hover{filter:brightness(1.1)}
+  button:active{transform:translateY(1px)}
+  main{padding:16px; max-width:1200px; margin:auto}
+  .board{display:grid; grid-template-columns:repeat(6,1fr); gap:10px}
+  .category{background:linear-gradient(180deg,#1a237e,#0d154f); border-radius:14px; padding:10px; text-align:center; font-weight:800; text-transform:uppercase; min-height:70px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.15)}
+  .tile{background:linear-gradient(180deg,#152064,#0d154f); border-radius:14px; height:90px; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:900; color:var(--accent); border:1px solid rgba(255,255,255,.15); cursor:pointer}
+  .tile.used{opacity:.25; text-decoration:line-through}
+  .modal{position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.65); padding:20px}
+  .modal.show{display:grid}
+  .card{background:linear-gradient(180deg,#0f1540,#0b1028); border:1px solid rgba(255,255,255,.12); border-radius:18px; max-width:900px; width:min(900px,95vw); overflow:hidden; box-shadow:0 20px 70px rgba(0,0,0,.5)}
+  .qhead{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.08)}
+  .qbody{padding:24px; font-size:clamp(18px,2.2vw,28px); line-height:1.35}
+  .qfooter{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid rgba(255,255,255,.08)}
+  .value{font-weight:900; color:var(--accent)}
+  .answer{display:none; margin-top:16px; padding:16px; border:1px dashed rgba(255,255,255,.25); border-radius:12px; background:rgba(255,255,255,.04)}
+  .answer.show{display:block}
+  .teams{display:flex; gap:10px; flex-wrap:wrap}
+  .team{background:var(--panel); padding:10px 12px; border-radius:12px; display:flex; align-items:center; gap:8px}
+  .team input{width:100px}
+  .pill{padding:6px 10px; border-radius:999px; font-weight:800}
+  .good{background:rgba(102,187,106,.15); border:1px solid rgba(102,187,106,.5)}
+  .bad{background:rgba(239,83,80,.15); border:1px solid rgba(239,83,80,.5)}
+  .small{opacity:.8; font-size:12px}
+  .help{opacity:.75}
+  .foot{max-width:1200px; margin:16px auto; padding:0 16px; font-size:12px; opacity:.7}
+  .sr{position:absolute; height:1px; width:1px; overflow:hidden; clip:rect(1px,1px,1px,1px)}
+  @media (max-width:900px){ .board{grid-template-columns:repeat(3,1fr)} }
 </style>
 </head>
-
 <body>
-
-<h1>🧪 Grade 7 Science Jeopardy<br>Pure Substances & Mixtures</h1>
-
-<table>
-<tr>
-    <th>Basic Concepts</th>
-    <th>Pure or Mixture?</th>
-    <th>Particle Theory</th>
-    <th>Solutions</th>
-    <th>Separation Methods</th>
-</tr>
-
-<tr>
-<td onclick="showQA(this,'What is matter?','Anything that has mass and takes up space.')">$100</td>
-<td onclick="showQA(this,'Is salt a pure substance or a mixture?','Pure substance – it has the same composition throughout.')">$100</td>
-<td onclick="showQA(this,'What are all substances made of?','Tiny particles.')">$100</td>
-<td onclick="showQA(this,'What is a solution?','A homogeneous mixture where one substance dissolves in another.')">$100</td>
-<td onclick="showQA(this,'Which method separates iron from sand?','Magnetism.')">$100</td>
-</tr>
-
-<tr>
-<td onclick="showQA(this,'What are the three states of matter?','Solid, liquid, and gas.')">$200</td>
-<td onclick="showQA(this,'Is air a pure substance or a mixture?','Mixture – it contains different gases.')">$200</td>
-<td onclick="showQA(this,'What happens to particle motion when temperature increases?','Particles move faster.')">$200</td>
-<td onclick="showQA(this,'In salt water, what is the solvent?','Water.')">$200</td>
-<td onclick="showQA(this,'Which method removes dissolved solids from a liquid?','Evaporation.')">$200</td>
-</tr>
-
-<tr>
-<td onclick="showQA(this,'What does homogeneous mean?','The mixture looks the same throughout.')">$300</td>
-<td onclick="showQA(this,'Is milk a solution or mechanical mixture?','Mechanical mixture – particles are suspended and not dissolved.')">$300</td>
-<td onclick="showQA(this,'Why do gas particles spread out?','They move freely and have weak attraction to each other.')">$300</td>
-<td onclick="showQA(this,'What is the difference between dilute and concentrated?','Concentrated has more solute; dilute has less.')">$300</td>
-<td onclick="showQA(this,'How does filtration work?','It separates solids from liquids using a filter.')">$300</td>
-</tr>
-
-<tr>
-<td onclick="showQA(this,'What is the difference between a pure substance and a mixture?','Pure substances have one kind of particle; mixtures have more than one.')">$400</td>
-<td onclick="showQA(this,'Is distilled water pure? Why?','Yes, it contains only water particles.')">$400</td>
-<td onclick="showQA(this,'Why do solids keep their shape?','Particles are closely packed and vibrate in place.')">$400</td>
-<td onclick="showQA(this,'What is a saturated solution?','A solution where no more solute can dissolve.')">$400</td>
-<td onclick="showQA(this,'Why is evaporation used to make maple syrup?','Water evaporates, leaving concentrated sugar behind.')">$400</td>
-</tr>
-
-<tr>
-<td onclick="showQA(this,'Why are most foods mixtures?','They contain more than one substance combined together.')">$500</td>
-<td onclick="showQA(this,'Is a gold necklace always pure?','No, it may be mixed with other metals.')">$500</td>
-<td onclick="showQA(this,'How does particle theory explain changes of state?','Heating speeds particles up; cooling slows them down.')">$500</td>
-<td onclick="showQA(this,'What are solute and solvent?','Solute dissolves; solvent does the dissolving.')">$500</td>
-<td onclick="showQA(this,'How does distillation work?','It separates substances using different boiling points.')">$500</td>
-</tr>
-</table>
-
-<div id="questionBox">
-Click a dollar amount to reveal a question.
+<header>
+  <h1>Jeopardy – Pure Substances & Mixtures</h1>
+  <div class="controls">
+    <button id="fsBtn" title="Toggle fullscreen">Fullscreen</button>
+    <button id="resetBtn" title="Reset board & scores">Reset</button>
+    <label class="help small"><input type="checkbox" id="ddCheck"> Add one Daily Double</label>
+    <select id="teamCount" title="Teams">
+      <option value="0">No Teams</option>
+      <option value="2" selected>2 Teams</option>
+      <option value="3">3 Teams</option>
+      <option value="4">4 Teams</option>
+    </select>
+  </div>
+</header>
+<main>
+  <section class="teams" id="teams"></section>
+  <section class="board" id="board" aria-label="Jeopardy board"></section>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="qTitle">
+  <div class="card">
+    <div class="qhead">
+      <div><strong id="qCat">Category</strong> • <span class="value" id="qVal">$100</span></div>
+      <div class="help small">Press <kbd>Space</kbd> to reveal, <kbd>Enter</kbd> to award, <kbd>Esc</kbd> to close</div>
+    </div>
+    <div class="qbody">
+      <div id="qText">Question text…</div>
+      <div class="answer" id="qAnswer" aria-live="polite"><strong>Answer:</strong> <span id="aText"></span></div>
+    </div>
+    <div class="qfooter">
+      <div class="teams" id="award"></div>
+      <div>
+        <button id="revealBtn">Reveal Answer</button>
+        <button id="closeBtn">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
-
-<button onclick="showAnswer()">Show Answer</button>
-<button onclick="clearBox()">Clear</button>
-
+<p class="foot help">Content adapted from Unit C: Biodiversity (Grade 7 Science). Use for in‑class review. Keyboard: Space = reveal, Enter = award (+), Shift+Enter = deduct (−), Esc = close.</p>
 <script>
-let currentAnswer = "";
+// ======= DATA =======
+const categories = [
+  {
+    name: "Matter Basics",
+    q: [
+      {v:100, q:"What is matter?", a:"Anything that has mass and takes up space."},
+      {v:200, q:"Name the three main states of matter.", a:"Solid, liquid, and gas."},
+      {v:300, q:"What property of matter describes how much matter is in an object?", a:"Mass."},
+      {v:400, q:"What is volume?", a:"The amount of space an object takes up."},
+      {v:500, q:"Why is air considered matter?", a:"It has mass and takes up space, even though it is invisible."}
+    ]
+  },
+  {
+    name: "Pure Substances",
+    q: [
+      {v:100, q:"What is a pure substance?", a:"Matter made of only one kind of particle."},
+      {v:200, q:"Is distilled water a pure substance? Why?", a:"Yes, it contains only water particles."},
+      {v:300, q:"Are elements or compounds pure substances?", a:"Both elements and compounds are pure substances."},
+      {v:400, q:"Why is oxygen considered a pure substance?", a:"It contains only one type of particle."},
+      {v:500, q:"Why is table salt considered pure even though it is made of two elements?", a:"It is a compound with a fixed composition."}
+    ]
+  },
+  {
+    name: "Mixtures",
+    q: [
+      {v:100, q:"What is a mixture?", a:"Matter made of two or more substances combined."},
+      {v:200, q:"What is the difference between a mechanical mixture and a solution?", a:"Mechanical mixtures are visible; solutions look uniform."},
+      {v:300, q:"Is milk a solution or mechanical mixture?", a:"Mechanical mixture."},
+      {v:400, q:"Why is soil considered a mixture?", a:"It contains many different substances mixed together."},
+      {v:500, q:"Why are most foods mixtures?", a:"They are made from several different ingredients."}
+    ]
+  },
+  {
+    name: "Solutions",
+    q: [
+      {v:100, q:"What is a solution?", a:"A homogeneous mixture where one substance dissolves in another."},
+      {v:200, q:"In salt water, which is the solvent?", a:"Water."},
+      {v:300, q:"What is a solute?", a:"The substance that is dissolved."},
+      {v:400, q:"What does concentrated mean?", a:"A solution with a lot of solute."},
+      {v:500, q:"What is a saturated solution?", a:"A solution where no more solute can dissolve."}
+    ]
+  },
+  {
+    name: "Particle Theory",
+    q: [
+      {v:100, q:"What are all substances made of?", a:"Tiny particles."},
+      {v:200, q:"What happens to particles when temperature increases?", a:"They move faster."},
+      {v:300, q:"Why do solids keep their shape?", a:"Particles vibrate in fixed positions."},
+      {v:400, q:"Why do gases spread out?", a:"Particles move freely and have weak attraction."},
+      {v:500, q:"How does particle theory explain melting?", a:"Particles gain energy and move farther apart."}
+    ]
+  },
+  {
+    name: "Separation Methods",
+    q: [
+      {v:100, q:"Which method separates iron from sand?", a:"Magnetism."},
+      {v:200, q:"What method separates solids from liquids?", a:"Filtration."},
+      {v:300, q:"Which method removes dissolved solids?", a:"Evaporation."},
+      {v:400, q:"Why is evaporation used to make maple syrup?", a:"Water evaporates leaving sugar behind."},
+      {v:500, q:"How does distillation work?", a:"It separates substances using different boiling points."}
+    ]
+  }
+];
 
-function showQA(cell, question, answer) {
-    if (cell.classList.contains("used")) return;
-    document.getElementById("questionBox").innerText = question;
-    currentAnswer = answer;
-    cell.classList.add("used");
+// ======= STATE =======
+let state = { scores: [], used: new Set(), dailyDouble: null };
+
+// ======= UI BUILD =======
+const boardEl = document.getElementById('board');
+const teamsEl = document.getElementById('teams');
+const awardEl = document.getElementById('award');
+const teamCountSel = document.getElementById('teamCount');
+
+function buildBoard(){
+  boardEl.innerHTML = '';
+  // headers
+  categories.forEach(c=>{
+    const h = document.createElement('div');
+    h.className='category'; h.textContent=c.name; boardEl.appendChild(h);
+  });
+  // tiles (assume 5 rows)
+  const rows = 5;
+  for(let r=0;r<rows;r++){
+    categories.forEach((c,ci)=>{
+      const t = document.createElement('button');
+      const q = c.q[r];
+      t.className='tile';
+      t.textContent = `$${q.v}`;
+      t.dataset.ci = ci; t.dataset.ri = r;
+      const key = `${ci}-${r}`;
+      if(state.used.has(key)) t.classList.add('used');
+      t.addEventListener('click',()=>openQuestion(ci,r));
+      boardEl.appendChild(t);
+    });
+  }
 }
 
-function showAnswer() {
-    if (currentAnswer !== "") {
-        document.getElementById("questionBox").innerText += "\n\nAnswer: " + currentAnswer;
-    }
+function buildTeams(){
+  const n = +teamCountSel.value;
+  state.scores = Array.from({length:n}, (_,i)=>state.scores[i] ?? 0);
+  teamsEl.innerHTML = '';
+  for(let i=0;i<n;i++){
+    const box = document.createElement('div');
+    box.className='team';
+    box.innerHTML = `<span class="pill" style="background:rgba(100,181,246,.15);border:1px solid rgba(100,181,246,.5)">Team ${i+1}</span>
+      <strong class="score">${state.scores[i]}</strong>
+      <button data-delta="-100">−100</button>
+      <button data-delta="100">+100</button>`;
+    box.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const delta = +btn.dataset.delta;
+        state.scores[i]+=delta; renderScores();
+      });
+    });
+    teamsEl.appendChild(box);
+  }
 }
 
-function clearBox() {
-    document.getElementById("questionBox").innerText = "Click a dollar amount to reveal a question.";
-    currentAnswer = "";
+function renderScores(){
+  document.querySelectorAll('.team .score').forEach((el,i)=>el.textContent=state.scores[i]);
 }
+
+// ======= MODAL =======
+const modal = document.getElementById('modal');
+const qCat = document.getElementById('qCat');
+const qVal = document.getElementById('qVal');
+const qText = document.getElementById('qText');
+const qAnswer = document.getElementById('qAnswer');
+const aText = document.getElementById('aText');
+const revealBtn = document.getElementById('revealBtn');
+const closeBtn = document.getElementById('closeBtn');
+const ddCheck = document.getElementById('ddCheck');
+
+let current = null; // {ci,ri}
+
+function openQuestion(ci,ri){
+  const key = `${ci}-${ri}`;
+  if(state.used.has(key)) return;
+  const cat = categories[ci];
+  const item = cat.q[ri];
+  current = {ci,ri};
+  qCat.textContent = cat.name;
+  qVal.textContent = `$${item.v}`;
+  qText.textContent = (state.dailyDouble===key) ? `DAILY DOUBLE! Wager up to your team's score.\nQuestion: ${item.q}` : item.q;
+  aText.textContent = item.a;
+  qAnswer.classList.remove('show');
+  buildAward(item.v);
+  modal.classList.add('show');
+}
+
+function buildAward(value){
+  awardEl.innerHTML='';
+  const n = state.scores.length;
+  for(let i=0;i<n;i++){
+    const wrap = document.createElement('div');
+    wrap.className='team';
+    const add = document.createElement('button'); add.className='good'; add.textContent=`Team ${i+1} +${value}`;
+    const sub = document.createElement('button'); sub.className='bad'; sub.textContent=`Team ${i+1} −${value}`;
+    add.addEventListener('click',()=>{state.scores[i]+=value; renderScores(); markUsed(); closeModal();});
+    sub.addEventListener('click',()=>{state.scores[i]-=value; renderScores(); markUsed(); closeModal();});
+    wrap.appendChild(add); wrap.appendChild(sub); awardEl.appendChild(wrap);
+  }
+}
+
+function markUsed(){
+  if(!current) return;
+  const key = `${current.ci}-${current.ri}`;
+  state.used.add(key);
+  const tile = [...document.querySelectorAll('.tile')].find(t=>t.dataset.ci==current.ci && t.dataset.ri==current.ri);
+  if(tile) tile.classList.add('used');
+}
+
+function closeModal(){ modal.classList.remove('show'); current=null; }
+
+revealBtn.addEventListener('click',()=>qAnswer.classList.toggle('show'));
+closeBtn.addEventListener('click',closeModal);
+
+// keyboard shortcuts inside modal
+window.addEventListener('keydown',e=>{
+  if(!modal.classList.contains('show')) return;
+  const cat = categories[current?.ci||0];
+  const item = cat?.q[current?.ri||0];
+  const val = item?.v || 0;
+  const n = state.scores.length;
+  if(e.code==='Space'){ e.preventDefault(); qAnswer.classList.toggle('show'); }
+  if(e.code==='Enter'){
+    e.preventDefault(); if(n>0){ state.scores[0]+=val; renderScores(); } markUsed(); closeModal();
+  }
+  if(e.shiftKey && e.code==='Enter'){
+    e.preventDefault(); if(n>0){ state.scores[0]-=val; renderScores(); } markUsed(); closeModal();
+  }
+  if(e.code==='Escape'){ e.preventDefault(); closeModal(); }
+});
+
+// ======= FULLSCREEN & RESET =======
+const fsBtn = document.getElementById('fsBtn');
+fsBtn.addEventListener('click',()=>{
+  if(document.fullscreenElement){ document.exitFullscreen(); }
+  else{ document.documentElement.requestFullscreen(); }
+});
+
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  if(!confirm('Reset the board and scores?')) return;
+  state.used.clear();
+  const n = state.scores.length; state.scores = Array.from({length:n},()=>0);
+  state.dailyDouble = null; ddCheck.checked=false;
+  buildBoard(); buildTeams(); renderScores();
+});
+
+teamCountSel.addEventListener('change',()=>{ buildTeams(); renderScores(); });
+
+ddCheck.addEventListener('change',()=>{
+  state.dailyDouble = ddCheck.checked ? pickDailyDouble() : null;
+});
+
+function pickDailyDouble(){
+  const allKeys=[]; for(let ci=0;ci<categories.length;ci++){ for(let ri=0;ri<5;ri++){ allKeys.push(`${ci}-${ri}`)} }
+  return allKeys[Math.floor(Math.random()*allKeys.length)];
+}
+
+// ======= INIT =======
+(function init(){
+  buildBoard(); buildTeams(); renderScores();
+})();
 </script>
-
 </body>
 </html>
